@@ -1,0 +1,189 @@
+.size-input {
+    width: 35px;
+}
+
+
+/* Top-level puzzle layout */
+
+#puzzle {
+    display: grid;
+    grid-template: "        . column-hints" max-content "row-hints      picture" max-content / max-content max-content;
+}
+
+#column-hints {
+    grid-area: column-hints;
+}
+
+#row-hints {
+    grid-area: row-hints;
+}
+
+#picture {
+    grid-area: picture;
+}
+
+
+/* Column-hints is a flexbox row of flexbox columns */
+
+#column-hints {
+    display: flex;
+    flex-direction: row;
+}
+
+#column-hints .hint-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+
+/* Row-hints is a flexbox column of flexbox rows */
+
+#row-hints {
+    display: flex;
+    flex-direction: column;
+}
+
+#row-hints .hint-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+
+/* The picture is a flexbox column of flexbox rows */
+
+
+/* NOTE: It seems that there could be a better way of doing this using CSS grid */
+
+#picture {
+    display: flex;
+    flex-direction: column;
+}
+
+#picture .picture-row {
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* Puzzle element styles */
+
+
+/* Center the puzzle horizontally */
+
+#puzzle {
+    margin: 0 auto;
+    width: max-content;
+}
+
+
+/* Size the elements */
+
+#puzzle div {
+    box-sizing: border-box;
+}
+
+.element {
+    font-size: 12px;
+    text-align: center;
+    width: 15px;
+    height: 15px;
+}
+
+
+/* Borders */
+
+
+/* All elements have a 1px border and a 1px margin */
+
+
+/* FIXME: How do I make this look right without the margin? */
+
+.element,
+.row {
+    margin: 1px;
+    border: 1px solid black;
+}
+
+.element.blank {
+    border-color: white;
+}
+
+
+/* Hovering over an element changes the background */
+
+.element:hover {
+    background-color: gray;
+}
+
+
+/* Hovering over a hint-group changes the background */
+
+.hint-group:hover {
+    background-color: red;
+}
+
+.row {
+    display: flex;
+}
+
+
+/* ********************************************************************* */
+
+#game {
+    border-spacing: 0px;
+    border-collapse: collapse;
+    border: 1px solid black;
+    user-select: none;
+}
+
+#game td,
+#game th {
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+#game td:nth-child(5n + 1),
+#game th:nth-child(5n + 1) {
+    border-right: 1px solid black;
+}
+
+#game tr:nth-child(5n + 1) td,
+#game tr:nth-child(5n + 1) th {
+    border-bottom: 1px solid black;
+}
+
+#game th {
+    background-color: #eee;
+    font-family: 'Ubuntu Mono', monospace;
+}
+
+#game th.highlight {
+    background-color: #ccc;
+}
+
+#game td {
+    border-top: 1px dotted #aaa;
+    border-left: 1px dotted #aaa;
+}
+
+#game td:hover {
+    opacity: 0.85;
+    background-color: #f3f3f3;
+}
+
+#game td.on {
+    background-color: #000;
+}
+
+#game td.off {
+    background-color: #666;
+}
+
+#settings {
+    margin-top: 15px;
+}
