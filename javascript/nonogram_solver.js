@@ -188,10 +188,9 @@ for (var i = 0; i < userSolution.length; i++) {
 
 function checkWinner() {
     if (JSON.stringify(game.solution) == JSON.stringify(userSolution)) {
-        console.log("You Won!");
-        document.write("YOU WON")
+        alert("YOU WIN")
     } else {
-        console.log("no")
+        alert("YOU LOSE")
     }
     console.log(game.solution);
     console.log(userSolution);
@@ -205,24 +204,23 @@ function checkWinner() {
 //////                           gaferadeba
 window.onclick = e => {
     // debugger
+    document.getElementById("check").disabled = false;
     if (e.target.classList.contains("element")) {
         var x = e.target.id.slice(-1); //abrunebs  strings 
         var y = e.target.parentNode.id.slice(-1); //abrunebs strings
         var index = game.colHints.length * Number(y) + Number(x);
         console.log(index)
-        if (!black) {
-
+            // if (!black) {
+        console.log(userSolution[index] == undefined)
+        if (userSolution[index] == undefined || userSolution[index] == "0") {
             userSolution[index] = 1;
             e.target.style.background = "black"
-            this.black = true;
         } else {
-
             userSolution[index] = 0;
             e.target.style.background = "white"
-            this.black = false;
         }
     }
-    checkWinner();
+
 }
 
 // for (let i = 0; i < elements.length; i++) {
@@ -232,45 +230,6 @@ window.onclick = e => {
 //     alert('Hi!');
 // });
 // }
-$(document).ready(function() {
-    // debugger
-    // $('.level').click(function() {
-    //     boxId = $(this).attr('id');
-    // });
-    // console.log(boxId)
-
-    var black = false;
-    $(".element").click(function() {
-        var x = parseInt($(this)[0].id.slice(-1));
-        var y = parseInt($(this).parent()[0].id.slice(-1));
-        var index = col * y + x;
-        if (!this.black) {
-            // debugger
-            $(this).css('background', 'black');
-            this.black = true;
-            userSolution[index] = 1;
-
-        } else {
-            $(this).css('background', 'white');
-            this.black = false;
-            userSolution[index] = 0;
-        }
-        checkWinner();
-    })
-
-
-});
-// }
-// function cl() {
-//     $(document).ready(function() {
-//         $(document).click(function(event) {
-//             var parentDiv = $(event.target).closest("div");
-//             console.log(parentDiv.prop("id"));
-//         });
-//     });
-
-// }
-
 
 function startGame() {
     // debugger
