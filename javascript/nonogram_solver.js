@@ -48,34 +48,35 @@ function fillZero() {
         userSolution[i] = 0;
     }
 }
-console.log(userSolution)
+
+// function enableGame() {
+//     document.getElementById("start-game").disabled = false;
+// }
+//get level 
 document.getElementById('start-easy').addEventListener('click',
     () => {
         showTable = true;
         start(EASY_DIFFICULTY);
-        document.getElementById("start-game").disabled = false;
-        fillZero();
+        // enableGame();
         startGame();
     });
 document.getElementById('start-medium').addEventListener('click',
     () => {
         showTable = true;
         start(MEDIUM_DIFFICULTY);
-        document.getElementById("start-game").disabled = false;
-        fillZero();
+        // enableGame();
         startGame();
     });
 document.getElementById('start-hard').addEventListener('click',
     () => {
         showTable = true;
         start(HARD_DIFFICULTY);
-        document.getElementById("start-game").disabled = false;
-        fillZero()
+        // enableGame();
         startGame();
     });
 document.getElementById('start-game').addEventListener('click',
     () => {
-        fillZero();
+
         startGame();
     });
 // Catch when the user types a value into one of the size inputs
@@ -183,15 +184,30 @@ function drawGrid() {
 
 var black = false;
 
+function checkWin() {
+    // debugger
+    console.log(game.solution)
+    console.log(userSolution)
+    if (JSON.stringify(game.solution) == JSON.stringify(userSolution)) {
+        console.log("equla")
+        window.open("./images/win.png", "_self")
+        console.log("win")
+    }
+}
 
+function checkLose() {
+    if (JSON.stringify(game.solution) != JSON.stringify(userSolution)) {
+        window.open("./images/lose.jpg", "_self")
+        console.log("lose")
+    }
+}
 
 function checkWinner() {
-    if (JSON.stringify(game.solution) == JSON.stringify(userSolution)) {
-        window.open("./images/win.png", "_self")
-    } else {
-        window.open("./images/lose.jpg", "_self")
-            // console.log(userSolution);
-    }
+    console.log(game.solution)
+    console.log(userSolution)
+    checkWin();
+    checkLose();
+
     console.log(game.solution);
     console.log(userSolution);
 }
@@ -204,12 +220,13 @@ function checkWinner() {
 //////                           gaferadeba
 
 window.onclick = e => {
-    // debugger
     document.getElementById("check").disabled = false;
     if (e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
-        var x = e.target.id.slice(-1); //abrunebs  strings 
-        var y = e.target.parentNode.id.slice(-1); //abrunebs strings
+        var x = e.target.id.substr(10, ); //achris pictureCol-s da abrunebs ricxvs  stringad
+        var y = e.target.parentNode.id.substr(10, ) //abrunebs strings  id="pictureRow10"  achris pictureRow-s
+        console.log(y)
         var index = game.colHints.length * Number(y) + Number(x);
+
         console.log(index)
             // if (!black) {
         console.log(userSolution[index] == undefined)
@@ -221,10 +238,12 @@ window.onclick = e => {
             userSolution[index] = 0;
             e.target.style.background = "white"
         }
+        checkWin()
     }
     if (e.target.classList.contains("element") && e.target.parentNode.classList.contains("hint-group")) {
         e.target.style.background == "gray" ? e.target.style.background = "white" : e.target.style.background = "gray"
     }
+
 }
 
 
@@ -238,6 +257,7 @@ window.onclick = e => {
 
 function startGame() {
     // debugger
+    fillZero();
     document.getElementById("start-game").disabled = false;
     document.getElementById("puzzle").style.display = "grid"
     drawPuzzle();
@@ -286,29 +306,32 @@ function start(difficulty) {
             percentSpots = MEDIUM_PERCENT;
             game = {
                 colHints: [
-                    [5, 2],
-                    [2, 3],
-                    [2, 4],
-                    [5, 2],
-                    [4, 1, 1],
-                    [5, 2],
-                    [2, 4],
-                    [2, 3],
-                    [2, 2]
-
-                ],
-                rowHints: [
-                    [5],
-                    [9],
-                    [2, 3, 2],
-                    [3],
-                    [2, 2],
-                    [2, 1, 2],
-                    [4, 4],
+                    [2],
+                    [4],
+                    [4],
+                    [8],
+                    [1, 1],
+                    [1, 1],
+                    [1, 1, 2],
+                    [1, 1, 4],
+                    [1, 1, 4],
                     [9]
                 ],
+                rowHints: [
+                    [3],
+                    [2, 1],
+                    [2, 3],
+                    [1, 2, 1],
+                    [2, 1],
+                    [1, 1],
+                    [1, 3],
+                    [3, 4],
+                    [4, 4],
+                    [4, 2],
+                    [2]
+                ],
                 solution: [
-                    1, 0, 1, 0, 1, 0, 1, 0
+                    0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0
                 ]
             }
             break;
