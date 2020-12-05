@@ -187,3 +187,16 @@
 #settings {
     margin-top: 15px;
 }
+
+.container {
+    display: flex;
+}
+
+.easy,
+.medium,
+.hard {
+    background: darkslategrey;
+    width: 150px;
+    height: 150px;
+    margin-left: 15px;
+}
