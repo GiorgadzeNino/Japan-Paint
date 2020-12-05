@@ -33,12 +33,28 @@ let row;
 // drawPuzzle();
 
 let showTable = false;
-
+document.getElementById("puzzle").style.display = "none"
+    // start()
+var userSolution
+    // = new Array(game.solution.length);
+    // console.log(userSolution)
+    // for (var i = 0; i < userSolution.length; i++) {
+    // userSolution[i] = 0;
+    // }
+function fillZero() {
+    userSolution = new Array(game.solution.length);
+    console.log(userSolution)
+    for (var i = 0; i < userSolution.length; i++) {
+        userSolution[i] = 0;
+    }
+}
+console.log(userSolution)
 document.getElementById('start-easy').addEventListener('click',
     () => {
         showTable = true;
         start(EASY_DIFFICULTY);
         document.getElementById("start-game").disabled = false;
+        fillZero();
         startGame();
     });
 document.getElementById('start-medium').addEventListener('click',
@@ -46,6 +62,7 @@ document.getElementById('start-medium').addEventListener('click',
         showTable = true;
         start(MEDIUM_DIFFICULTY);
         document.getElementById("start-game").disabled = false;
+        fillZero();
         startGame();
     });
 document.getElementById('start-hard').addEventListener('click',
@@ -53,29 +70,15 @@ document.getElementById('start-hard').addEventListener('click',
         showTable = true;
         start(HARD_DIFFICULTY);
         document.getElementById("start-game").disabled = false;
+        fillZero()
         startGame();
     });
 document.getElementById('start-game').addEventListener('click',
     () => {
+        fillZero();
         startGame();
     });
 // Catch when the user types a value into one of the size inputs
-const handleSizeInput = e => {
-        console.log(`Saw input change to ${e.target.id}: ${e.target.value}`);
-        if (Number(e.target.value)) {
-            sizeError.innerText = "";
-            game[e.target.id] = e.target.value;
-            console.log(`Change game to:`);
-            console.log(game);
-            drawPuzzle();
-        } else {
-            console.log(`Input is not a number`);
-            sizeError.innerText = "Invalid input! Only numbers allowed.";
-            e.target.value = game[e.target.id];
-        }
-    }
-    // colHints.length.onchange = handleSizeInput;
-    // rowHints.length.onchange = handleSizeInput;
 
 // Function to draw entire puzzle
 function drawPuzzle() {
@@ -121,7 +124,7 @@ function drawColHints() {
             }
         }
     }
-    this.column = col;
+    // this.column = col;
 }
 
 // Function to redraw the row hints
@@ -157,7 +160,7 @@ function drawRowHints() {
             }
         }
     }
-    this.row = row;
+    // this.row = row;
 }
 
 // Function to redraw the picture grid
@@ -179,18 +182,15 @@ function drawGrid() {
 }
 
 var black = false;
-var userSolution = new Array(game.solution.length);
-console.log(userSolution)
-for (var i = 0; i < userSolution.length; i++) {
-    userSolution[i] = 0;
-}
+
 
 
 function checkWinner() {
     if (JSON.stringify(game.solution) == JSON.stringify(userSolution)) {
-        alert("YOU WIN")
+        window.open("./images/win.png", "_self")
     } else {
-        alert("YOU LOSE")
+        window.open("./images/lose.jpg", "_self")
+            // console.log(userSolution);
     }
     console.log(game.solution);
     console.log(userSolution);
@@ -202,16 +202,18 @@ function checkWinner() {
 
 
 //////                           gaferadeba
+
 window.onclick = e => {
     // debugger
     document.getElementById("check").disabled = false;
-    if (e.target.classList.contains("element")) {
+    if (e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
         var x = e.target.id.slice(-1); //abrunebs  strings 
         var y = e.target.parentNode.id.slice(-1); //abrunebs strings
         var index = game.colHints.length * Number(y) + Number(x);
         console.log(index)
             // if (!black) {
         console.log(userSolution[index] == undefined)
+
         if (userSolution[index] == undefined || userSolution[index] == "0") {
             userSolution[index] = 1;
             e.target.style.background = "black"
@@ -220,8 +222,11 @@ window.onclick = e => {
             e.target.style.background = "white"
         }
     }
-
+    if (e.target.classList.contains("element") && e.target.parentNode.classList.contains("hint-group")) {
+        e.target.style.background == "gray" ? e.target.style.background = "white" : e.target.style.background = "gray"
+    }
 }
+
 
 // for (let i = 0; i < elements.length; i++) {
 //     el = elements[i];
@@ -234,6 +239,7 @@ window.onclick = e => {
 function startGame() {
     // debugger
     document.getElementById("start-game").disabled = false;
+    document.getElementById("puzzle").style.display = "grid"
     drawPuzzle();
     drawGrid();
     // setHints();
