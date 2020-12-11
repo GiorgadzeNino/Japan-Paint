@@ -103,7 +103,7 @@
 .element,
 .row {
     margin: 1px;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 
 .element.blank {
@@ -216,6 +216,7 @@ button {
     padding: 11px 7px;
     text-decoration: none;
     text-shadow: 0px -1px 0px #2b665e;
+    outline: none;
 }
 
 button:hover {
@@ -228,6 +229,33 @@ button:active {
     top: 1px;
 }
 
-.buttons {
-    width: 100%;
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.buttons,
+#check {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+
+/* media queries */
+
+@media only screen and (max-width: 768px) {
+    .element {
+        width: 20px;
+        height: 20px;
+    }
+    .wrapper {
+        height: 120vh !important;
+    }
 }

@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.wrapper {
+    background: url("https://codespeedy.com/wp-content/uploads/2018/12/snowfall-effect-css.png");
+    color: #eee;
+    width: 100%;
+    height: 100vh;
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+    animation: animation 400s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column
+}
+
+@keyframes animation {
+    100% {
+        background-position: 0px -3000px;
+    }
+}
+
+h1 {
+    align-items: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+}

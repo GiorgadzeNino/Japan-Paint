@@ -1,47 +1,24 @@
-// const colHints.length = document.getElementById('colHints.length');
-// const rowHints.length = document.getElementById('rowHints.length');
-const EASY_PERCENT = 92;
-const MEDIUM_PERCENT = 82;
-const HARD_PERCENT = 72;
 const EASY_DIFFICULTY = 'easy';
 const MEDIUM_DIFFICULTY = 'medium';
 const HARD_DIFFICULTY = 'hard';
-const STATE_UNSELECTED = 0;
-const STATE_SELECTED = 1;
-const STATE_MARKED = 2;
 const DEFAULT_DIFFICULTY = MEDIUM_DIFFICULTY;
 
 const sizeError = document.getElementById('sizeError');
 const colHints = document.getElementById('column-hints');
 const rowHints = document.getElementById('row-hints');
 const picture = document.getElementById('picture');
-console.log(picture);
+
 let game = {
-        colHints: [],
-        rowHints: [],
-        solution: []
-    }
-    // User inputs
-    // NOTE: Initial values are mostly for testing.
-    //       5x5 grid is ok for production, but I think the hints should be empty to start
-    // start()
-console.log(`Initial game:`);
-console.log(game);
-let column;
-let row;
-// Initial puzzle draw
-// drawPuzzle();
+    colHints: [],
+    rowHints: [],
+    solution: []
+}
 
 let showTable = false;
 document.getElementById("puzzle").style.display = "none"
-    // start()
 var userSolution
-    // = new Array(game.solution.length);
-    // console.log(userSolution)
-    // for (var i = 0; i < userSolution.length; i++) {
-    // userSolution[i] = 0;
-    // }
-function fillZero() {
+
+function fillZero() { // ივსება 0-ით  userSolution
     userSolution = new Array(game.solution.length);
     console.log(userSolution)
     for (var i = 0; i < userSolution.length; i++) {
@@ -49,73 +26,59 @@ function fillZero() {
     }
 }
 
-// function enableGame() {
-//     document.getElementById("start-game").disabled = false;
+// window.onLoad = e => {
+//     var el = document.getElementById("squares").appendChild(document.createElement(div))
+//     el.classList.add("square")
 // }
-//get level 
+
 document.getElementById('start-easy').addEventListener('click',
     () => {
         showTable = true;
         start(EASY_DIFFICULTY);
-        // enableGame();
         startGame();
     });
 document.getElementById('start-medium').addEventListener('click',
     () => {
         showTable = true;
         start(MEDIUM_DIFFICULTY);
-        // enableGame();
         startGame();
     });
 document.getElementById('start-hard').addEventListener('click',
     () => {
         showTable = true;
         start(HARD_DIFFICULTY);
-        // enableGame();
         startGame();
     });
-document.getElementById('start-game').addEventListener('click',
+document.getElementById('reset-game').addEventListener('click',
     () => {
-
         startGame();
     });
-// Catch when the user types a value into one of the size inputs
 
-// Function to draw entire puzzle
+
+//  მთლიანი პაზლის დახატვა
 function drawPuzzle() {
-    // clearPuzzle();
     drawColHints();
     drawRowHints();
     drawGrid();
 }
 
-// function clearPuzzle() {
-// }
-
-// Function to redraw the column hints
+// სვეტების  რიცხვების დახატვა/ჩაწერა
 function drawColHints() {
-    // First clear out the current hints
-    console.log('Clearing out column hints');
-    colHints.innerHTML = "";
+    colHints.innerHTML = ""; // ყველა უჯრას სვეტებისას შევავსებთ  ""-ით
 
-    // Iterate over the hints, creating elements along the way
-    console.log('Starting column loop');
-    console.log(game.colHints)
+    //სვეტებში იწერება რიცხვები.
     for (col = 0; col < game.colHints.length; col++) {
         let currCol = colHints.appendChild(document.createElement('div'));
         currCol.id = `hintsCol${col}`;
         currCol.classList.add('hint-group');
-        console.log('Starting element loop');
-        console.log(game.colHints[col]);
-        console.log(game.colHints[col].length);
 
-        // Special case if the column hints is an empty array
+        // სპეციალური ქეისი თუ სვეტში არის ცარიელი  მასივი
         if (game.colHints[col].length == 0) {
             currHint = currCol.appendChild(document.createElement('div'));
             currHint.id = `hintCol${col}Blank`;
             currHint.classList.add('element', 'blank');
         }
-        // Otherwise iterate over the elements in column hints
+        //  ლუპი სათითაოდ სვეტისთვის უკვე
         else {
             for (elm = 0; elm < game.colHints[col].length; elm++) {
                 currHint = currCol.appendChild(document.createElement('div'));
@@ -125,27 +88,16 @@ function drawColHints() {
             }
         }
     }
-    // this.column = col;
 }
 
-// Function to redraw the row hints
+// დავხატოთ სტრიქონები და ჩავწეროთ რიცხვები
 function drawRowHints() {
-    // First clear out the current hints
-    console.log('Clearing out row hints');
     rowHints.innerHTML = "";
 
-    // Iterate over the hints, creating elements along the way
-    console.log('Starting row loop');
-    console.log(game.rowHints)
     for (row = 0; row < game.rowHints.length; row++) {
         let currRow = rowHints.appendChild(document.createElement('div'));
         currRow.id = `hintsRow${row}`;
         currRow.classList.add('hint-group');
-        console.log('Starting element loop');
-        console.log(game.rowHints[row]);
-        console.log(game.rowHints[row].length);
-
-        // Special case if the row hints is an empty array
         if (game.rowHints[row].length == 0) {
             currHint = currRow.appendChild(document.createElement('div'));
             currHint.id = `hintRow${row}Blank`;
@@ -182,22 +134,21 @@ function drawGrid() {
     }
 }
 
-var black = false;
+// var black = false;
 
 function checkWin() {
     // debugger
     console.log(game.solution)
     console.log(userSolution)
     if (JSON.stringify(game.solution) == JSON.stringify(userSolution)) {
-        console.log("equla")
-        window.open("./images/win.png", "_self")
+        window.location.assign("./win.html")
         console.log("win")
     }
 }
 
 function checkLose() {
     if (JSON.stringify(game.solution) != JSON.stringify(userSolution)) {
-        window.open("./images/lose.jpg", "_self")
+        window.location.assign("./lose.html")
         console.log("lose")
     }
 }
@@ -219,7 +170,7 @@ function checkWinner() {
 
 //////                           gaferadeba
 
-window.onclick = e => {
+window.onmousedown = e => {
     document.getElementById("check").disabled = false;
     if (e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
         var x = e.target.id.substr(10, ); //achris pictureCol-s da abrunebs ricxvs  stringad
@@ -233,77 +184,61 @@ window.onclick = e => {
 
         if (userSolution[index] == undefined || userSolution[index] == "0") {
             userSolution[index] = 1;
-            e.target.style.background = "black"
+            e.target.style.background = "white"
         } else {
             userSolution[index] = 0;
-            e.target.style.background = "white"
+            e.target.style.background = "transparent"
         }
         checkWin()
     }
     if (e.target.classList.contains("element") && e.target.parentNode.classList.contains("hint-group")) {
-        e.target.style.background == "gray" ? e.target.style.background = "white" : e.target.style.background = "gray"
+        e.target.style.background == "gray" ? e.target.style.background = "transparent" : e.target.style.background = "gray"
     }
 
 }
 
 
-// for (let i = 0; i < elements.length; i++) {
-//     el = elements[i];
 
-// el.addEventListener('click', function (event) {
-//     alert('Hi!');
-// });
-// }
 
 function startGame() {
-    // debugger
     fillZero();
-    document.getElementById("start-game").disabled = false;
+    document.getElementById("reset-game").disabled = false;
     document.getElementById("puzzle").style.display = "grid"
     drawPuzzle();
     drawGrid();
-    // setHints();
-    // reset();
 }
 
 function start(difficulty) {
     switch (difficulty) {
         case EASY_DIFFICULTY:
-            percentSpots = EASY_PERCENT;
+            // percentSpots = EASY_PERCENT;
             game = {
                 colHints: [
-                    [2, 2],
-                    [2, 3],
-                    [2, 4],
-                    [5, 2],
-                    [4, 1, 1],
-                    [5, 2],
-                    [2, 4],
-                    [2, 3],
-                    [2, 2]
-
+                    [2],
+                    [3, 2, 2],
+                    [2, 3, 2],
+                    [5],
+                    [3]
                 ],
                 rowHints: [
-                    [5],
-                    [9],
-                    [2, 3, 2],
                     [3],
+                    [5],
                     [2, 2],
-                    [2, 1, 2],
-                    [4, 4],
-                    [9]
+                    [2],
+                    [2],
+                    [2],
+                    [2],
+                    [0],
+                    [2],
+                    [2]
                 ],
                 solution: [
-                    0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1,
-                    1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1,
-                    1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1,
-                    0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
-                    1, 1, 1, 1, 1, 1, 1, 1
+                    0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
                 ]
             }
             break;
         case MEDIUM_DIFFICULTY:
-            percentSpots = MEDIUM_PERCENT;
+            // percentSpots = MEDIUM_PERCENT;
             game = {
                 colHints: [
                     [2],
@@ -337,10 +272,10 @@ function start(difficulty) {
             break;
         case HARD_DIFFICULTY:
             console.log(game)
-            percentSpots = HARD_PERCENT;
+                // percentSpots = HARD_PERCENT;
             game = {
                 colHints: [
-                    [6, 2],
+                    [2, 2],
                     [2, 3],
                     [2, 4],
                     [5, 2],
@@ -362,7 +297,11 @@ function start(difficulty) {
                     [9]
                 ],
                 solution: [
-                    1, 0, 1, 0, 1, 0, 1, 0
+                    0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1,
+                    1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1,
+                    1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1,
+                    0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+                    1, 1, 1, 1, 1, 1, 1, 1
                 ]
             }
             break;

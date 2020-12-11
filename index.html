@@ -3,57 +3,63 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>იაპონური ხატვა</title>
+    <title>𝓙𝓪𝓹𝓪𝓷 𝓟𝓪𝓲𝓷𝓽</title>
     <meta name="Description" content="about lorem ipsum" />
     <meta name="keywords" content=" lorem ipsum web task" />
     <meta name="author" contenFt="Nino Giorgadze">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./css/stylesheet.css" rel="stylesheet" />
+    <link href="./css/background.css" rel="stylesheet" />
 
 </head>
 
 <body>
-    <div class='buttons'>
-        <div>Choose Game level</div>
-        <button id="start-easy">Easy</button>
-        <button id="start-medium">Medium</button>
-        <button id="start-hard">Hard</button>
+    <div class="wrapper">
+        <h1>𝓙𝓪𝓹𝓪𝓷 𝓟𝓪𝓲𝓷𝓽</h1>
+        <div class='buttons'>
+            <!-- <div>Choose Game level</div> -->
+            <button id="start-easy">Easy</button>
+            <button id="start-medium">Medium</button>
+            <button id="start-hard">Hard</button>
+            <button id="reset-game" disabled>reset</button>
+        </div>
+
+
+        <div id="puzzle">
+            <div id="column-hints" class="hints">
+                <div class="hint-group">
+                    <div class="element"></div>
+                    <div class="element"></div>
+                </div>
+                <div class="hint-group">
+                    <div class="element"></div>
+                    <div class="element"></div>
+                </div>
+            </div>
+            <div id="row-hints" class="hints">
+                <div class="hint-group">
+                    <div class="element"></div>
+                    <div class="element"></div>
+                </div>
+                <div class="hint-group">
+                    <div class="element"></div>
+                    <div class="element"></div>
+                </div>
+            </div>
+            <div id="picture">
+                <div class="picture-row">
+                    <div class="element"></div>
+                    <div class="element"></div>
+                </div>
+                <div class="picture-row">
+                    <div class="element"></div>
+                    <div class="element"></div>
+                </div>
+            </div>
+        </div>
+        <button onclick="checkWinner()" id="check" disabled>check!</button>
     </div>
-    <button id="start-game" disabled>start</button>
-    <h1>იაპონური ხატვა</h1>
-    <div id="puzzle">
-        <div id="column-hints" class="hints">
-            <div class="hint-group">
-                <div class="element"></div>
-                <div class="element"></div>
-            </div>
-            <div class="hint-group">
-                <div class="element"></div>
-                <div class="element"></div>
-            </div>
-        </div>
-        <div id="row-hints" class="hints">
-            <div class="hint-group">
-                <div class="element"></div>
-                <div class="element"></div>
-            </div>
-            <div class="hint-group">
-                <div class="element"></div>
-                <div class="element"></div>
-            </div>
-        </div>
-        <div id="picture">
-            <div class="picture-row">
-                <div class="element"></div>
-                <div class="element"></div>
-            </div>
-            <div class="picture-row">
-                <div class="element"></div>
-                <div class="element"></div>
-            </div>
-        </div>
-    </div>
-    <button onclick="checkWinner()" id="check" disabled>check!</button>
+
 
     <script type="text/javascript" src="./javascript/nonogram_solver.js"></script>
 </body>
