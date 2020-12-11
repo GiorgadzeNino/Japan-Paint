@@ -14,13 +14,11 @@ let game = {
     solution: []
 }
 
-let showTable = false;
 document.getElementById("puzzle").style.display = "none"
 var userSolution
 
 function fillZero() { // ივსება 0-ით  userSolution
     userSolution = new Array(game.solution.length);
-    console.log(userSolution)
     for (var i = 0; i < userSolution.length; i++) {
         userSolution[i] = 0;
     }
@@ -33,19 +31,16 @@ function fillZero() { // ივსება 0-ით  userSolution
 
 document.getElementById('start-easy').addEventListener('click',
     () => {
-        showTable = true;
         start(EASY_DIFFICULTY);
         startGame();
     });
 document.getElementById('start-medium').addEventListener('click',
     () => {
-        showTable = true;
         start(MEDIUM_DIFFICULTY);
         startGame();
     });
 document.getElementById('start-hard').addEventListener('click',
     () => {
-        showTable = true;
         start(HARD_DIFFICULTY);
         startGame();
     });
@@ -102,9 +97,7 @@ function drawRowHints() {
             currHint = currRow.appendChild(document.createElement('div'));
             currHint.id = `hintRow${row}Blank`;
             currHint.classList.add('element', 'blank');
-        }
-        // Otherwise iterate over the elements in row hints
-        else {
+        } else {
             for (elm = 0; elm < game.rowHints[row].length; elm++) {
                 currHint = currRow.appendChild(document.createElement('div'));
                 currHint.id = `hintRow${row}Elm${elm}`;
@@ -113,15 +106,12 @@ function drawRowHints() {
             }
         }
     }
-    // this.row = row;
 }
 
-// Function to redraw the picture grid
+// გრიდის დახატვა
 function drawGrid() {
-    // First clear out the current picture
-    picture.innerHTML = "";
+    picture.innerHTML = ""; //შევავსებთ ""-ით ყველა უჯრას
 
-    // Iterate over rows and columns, creating elements along the way
     for (rowY = 0; rowY < game.rowHints.length; rowY++) {
         let currRow = picture.appendChild(document.createElement('div'));
         currRow.id = `pictureRow${rowY}`;
@@ -134,53 +124,29 @@ function drawGrid() {
     }
 }
 
-// var black = false;
-
 function checkWin() {
-    // debugger
-    console.log(game.solution)
-    console.log(userSolution)
     if (JSON.stringify(game.solution) == JSON.stringify(userSolution)) {
         window.location.assign("./win.html")
-        console.log("win")
     }
 }
 
 function checkLose() {
     if (JSON.stringify(game.solution) != JSON.stringify(userSolution)) {
         window.location.assign("./lose.html")
-        console.log("lose")
     }
 }
 
 function checkWinner() {
-    console.log(game.solution)
-    console.log(userSolution)
     checkWin();
     checkLose();
-
-    console.log(game.solution);
-    console.log(userSolution);
 }
 
-//  function some() {
-
-
-
-
-//////                           gaferadeba
-
-window.onmousedown = e => {
+window.onclick = e => {
     document.getElementById("check").disabled = false;
     if (e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
-        var x = e.target.id.substr(10, ); //achris pictureCol-s da abrunebs ricxvs  stringad
-        var y = e.target.parentNode.id.substr(10, ) //abrunebs strings  id="pictureRow10"  achris pictureRow-s
-        console.log(y)
+        var x = e.target.id.substr(10, ); //აჭრის pictureCol-ს და აბრუნებს რიცხვს სტრინგად
+        var y = e.target.parentNode.id.substr(10, ) //აბრუნებს სტრინგს  id="pictureRow10"  აჭრის pictureRow-ს
         var index = game.colHints.length * Number(y) + Number(x);
-
-        console.log(index)
-            // if (!black) {
-        console.log(userSolution[index] == undefined)
 
         if (userSolution[index] == undefined || userSolution[index] == "0") {
             userSolution[index] = 1;
@@ -211,7 +177,6 @@ function startGame() {
 function start(difficulty) {
     switch (difficulty) {
         case EASY_DIFFICULTY:
-            // percentSpots = EASY_PERCENT;
             game = {
                 colHints: [
                     [2],
@@ -238,7 +203,6 @@ function start(difficulty) {
             }
             break;
         case MEDIUM_DIFFICULTY:
-            // percentSpots = MEDIUM_PERCENT;
             game = {
                 colHints: [
                     [2],
@@ -271,8 +235,6 @@ function start(difficulty) {
             }
             break;
         case HARD_DIFFICULTY:
-            console.log(game)
-                // percentSpots = HARD_PERCENT;
             game = {
                 colHints: [
                     [2, 2],
