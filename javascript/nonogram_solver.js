@@ -3,7 +3,7 @@ const MEDIUM_DIFFICULTY = 'medium';
 const HARD_DIFFICULTY = 'hard';
 const DEFAULT_DIFFICULTY = MEDIUM_DIFFICULTY;
 
-const sizeError = document.getElementById('sizeError');
+
 const colHints = document.getElementById('column-hints');
 const rowHints = document.getElementById('row-hints');
 const picture = document.getElementById('picture');
@@ -15,7 +15,12 @@ let game = {
 }
 
 document.getElementById("puzzle").style.display = "none"
+document.getElementById("show-solution").disabled = true
+
 var userSolution
+
+var count = 0;
+var userCount = 0;
 
 function fillZero() { // ივსება 0-ით  userSolution
     userSolution = new Array(game.solution.length);
@@ -24,10 +29,6 @@ function fillZero() { // ივსება 0-ით  userSolution
     }
 }
 
-// window.onLoad = e => {
-//     var el = document.getElementById("squares").appendChild(document.createElement(div))
-//     el.classList.add("square")
-// }
 
 document.getElementById('start-easy').addEventListener('click',
     () => {
@@ -46,9 +47,14 @@ document.getElementById('start-hard').addEventListener('click',
     });
 document.getElementById('reset-game').addEventListener('click',
     () => {
+        userCount = 0;
         startGame();
     });
 
+document.getElementById('show-solution').addEventListener('click',
+    () => {
+        showSolution();
+    })
 
 //  მთლიანი პაზლის დახატვა
 function drawPuzzle() {
@@ -141,35 +147,50 @@ function checkWinner() {
     checkLose();
 }
 
-window.onclick = e => {
-    document.getElementById("check").disabled = false;
+
+
+window.onmouseover = e => {
+
     if (e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
+        var checked = (element) => element === 1;
+
         var x = e.target.id.substr(10, ); //აჭრის pictureCol-ს და აბრუნებს რიცხვს სტრინგად
         var y = e.target.parentNode.id.substr(10, ) //აბრუნებს სტრინგს  id="pictureRow10"  აჭრის pictureRow-ს
         var index = game.colHints.length * Number(y) + Number(x);
-
         if (userSolution[index] == undefined || userSolution[index] == "0") {
-            userSolution[index] = 1;
-            e.target.style.background = "white"
+            if (userCount < count) {
+                userSolution[index] = 1;
+                e.target.style.background = "white"
+                userCount++
+            }
         } else {
             userSolution[index] = 0;
             e.target.style.background = "transparent"
+            userCount--
         }
-        checkWin()
+        if (userSolution.some(checked)) {
+            document.getElementById("check").disabled = false;
+            document.getElementById("reset-game").disabled = false;
+        } else {
+            document.getElementById("check").disabled = true;
+            document.getElementById("reset-game").disabled = true;
+        }
     }
+
+    checkWin()
+
     if (e.target.classList.contains("element") && e.target.parentNode.classList.contains("hint-group")) {
         e.target.style.background == "gray" ? e.target.style.background = "transparent" : e.target.style.background = "gray"
     }
-
 }
-
 
 
 
 function startGame() {
     fillZero();
-    document.getElementById("reset-game").disabled = false;
+    document.getElementById("show-solution").disabled = false;
     document.getElementById("puzzle").style.display = "grid"
+    checkMaxCount();
     drawPuzzle();
     drawGrid();
 }
@@ -273,4 +294,28 @@ function start(difficulty) {
     }
 
 
+}
+
+function showSolution() {
+    // show = !show;
+    // console.log(show)
+    for (let i = 0; i < game.solution.length; i++) {
+        var y = Math.floor(i / game.colHints.length) // ვიღებთ გასაფერადებელი უჯრის x და y კოორდინატებს
+        var x = i % game.colHints.length;
+        if (game.solution[i] == 1) {
+            document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "white"
+        } else {
+            document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "transparent"
+        }
+    }
+    document.getElementById("check").disabled = true;
+}
+
+function checkMaxCount() {
+    count = 0;
+    for (let i = 0; i < game.solution.length; i++) {
+        if (game.solution[i] == 1) {
+            count++;
+        }
+    }
 }
