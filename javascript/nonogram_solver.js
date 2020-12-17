@@ -14,7 +14,7 @@ let game = {
     solution: []
 }
 
-document.getElementById("puzzle").style.display = "none"
+document.getElementById("puzzle") ? document.getElementById("puzzle").style.display = "none" : null
 document.getElementById("show-solution").disabled = true
 
 var userSolution
@@ -47,12 +47,15 @@ document.getElementById('start-hard').addEventListener('click',
     });
 document.getElementById('reset-game').addEventListener('click',
     () => {
+        document.getElementById("check").disabled = true;
+        document.getElementById("reset-game").disabled = true;
         userCount = 0;
         startGame();
     });
 
 document.getElementById('show-solution').addEventListener('click',
     () => {
+        document.getElementById("puzzle").style.cursor = "not-allowed";
         showSolution();
     })
 
@@ -149,15 +152,16 @@ function checkWinner() {
 
 
 
-window.onmouseover = e => {
+window.onclick = e => {
 
-    if (e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
+    if (document.getElementById("puzzle").style.cursor == "pointer" && e.target.classList.contains("element") && !e.target.parentNode.classList.contains("hint-group")) {
         var checked = (element) => element === 1;
 
         var x = e.target.id.substr(10, ); //აჭრის pictureCol-ს და აბრუნებს რიცხვს სტრინგად
         var y = e.target.parentNode.id.substr(10, ) //აბრუნებს სტრინგს  id="pictureRow10"  აჭრის pictureRow-ს
         var index = game.colHints.length * Number(y) + Number(x);
         if (userSolution[index] == undefined || userSolution[index] == "0") {
+
             if (userCount < count) {
                 userSolution[index] = 1;
                 e.target.style.background = "white"
@@ -179,7 +183,7 @@ window.onmouseover = e => {
 
     checkWin()
 
-    if (e.target.classList.contains("element") && e.target.parentNode.classList.contains("hint-group")) {
+    if (document.getElementById("puzzle").style.cursor == "pointer" && e.target.classList.contains("element") && e.target.parentNode.classList.contains("hint-group")) {
         e.target.style.background == "gray" ? e.target.style.background = "transparent" : e.target.style.background = "gray"
     }
 }
@@ -187,9 +191,11 @@ window.onmouseover = e => {
 
 
 function startGame() {
+    userCount = 0;
     fillZero();
     document.getElementById("show-solution").disabled = false;
     document.getElementById("puzzle").style.display = "grid"
+    document.getElementById("puzzle").style.cursor = "pointer";
     checkMaxCount();
     drawPuzzle();
     drawGrid();
@@ -295,20 +301,32 @@ function start(difficulty) {
 
 
 }
+show = false;
 
 function showSolution() {
-    // show = !show;
-    // console.log(show)
-    for (let i = 0; i < game.solution.length; i++) {
-        var y = Math.floor(i / game.colHints.length) // ვიღებთ გასაფერადებელი უჯრის x და y კოორდინატებს
-        var x = i % game.colHints.length;
-        if (game.solution[i] == 1) {
-            document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "white"
-        } else {
-            document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "transparent"
+    show = !show;
+    if (show) {
+        document.getElementById("reset-game").disabled = false;
+        for (let i = 0; i < game.solution.length; i++) {
+            var y = Math.floor(i / game.colHints.length) // ვიღებთ გასაფერადებელი უჯრის x და y კოორდინატებს
+            var x = i % game.colHints.length;
+            if (game.solution[i] == 1) {
+                document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "white"
+            } else {
+                document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "transparent"
+            }
         }
+    } else {
+        userCount = 0;
+        var elements = document.getElementsByClassName("element");
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.background = "transparent"
+        }
+        document.getElementById("reset-game").disabled = true;
+        document.getElementById("puzzle").style.cursor = "pointer"
+        document.getElementById("check").disabled = true;
     }
-    document.getElementById("check").disabled = true;
+
 }
 
 function checkMaxCount() {
@@ -318,4 +336,5 @@ function checkMaxCount() {
             count++;
         }
     }
+
 }
