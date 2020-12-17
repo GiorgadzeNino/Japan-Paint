@@ -57,10 +57,11 @@
 }
 
 .element {
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 800;
     text-align: center;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
 }
 
 .element,

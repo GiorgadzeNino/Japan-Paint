@@ -21,6 +21,7 @@ var userSolution
 
 var count = 0;
 var userCount = 0;
+show = false;
 
 function fillZero() { // ივსება 0-ით  userSolution
     userSolution = new Array(game.solution.length);
@@ -301,7 +302,6 @@ function start(difficulty) {
 
 
 }
-show = false;
 
 function showSolution() {
     show = !show;
@@ -322,8 +322,8 @@ function showSolution() {
         for (var i = 0; i < elements.length; i++) {
             elements[i].style.background = "transparent"
         }
-        document.getElementById("reset-game").disabled = true;
         document.getElementById("puzzle").style.cursor = "pointer"
+        document.getElementById("reset-game").disabled = true;
         document.getElementById("check").disabled = true;
     }
 
