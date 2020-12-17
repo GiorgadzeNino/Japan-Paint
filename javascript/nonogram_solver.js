@@ -307,6 +307,7 @@ function showSolution() {
     show = !show;
     if (show) {
         document.getElementById("reset-game").disabled = false;
+        document.getElementById("check").disabled = true;
         for (let i = 0; i < game.solution.length; i++) {
             var y = Math.floor(i / game.colHints.length) // ვიღებთ გასაფერადებელი უჯრის x და y კოორდინატებს
             var x = i % game.colHints.length;
