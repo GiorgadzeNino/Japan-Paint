@@ -15,7 +15,7 @@ let game = {
 }
 
 document.getElementById("puzzle") ? document.getElementById("puzzle").style.display = "none" : null
-document.getElementById("show-solution").disabled = true
+document.getElementById("show-solution") ? document.getElementById("show-solution").disabled = true : null
 
 var userSolution
 
@@ -51,6 +51,7 @@ document.getElementById('reset-game').addEventListener('click',
         document.getElementById("check").disabled = true;
         document.getElementById("reset-game").disabled = true;
         userCount = 0;
+        show = false
         startGame();
     });
 
@@ -162,7 +163,6 @@ window.onclick = e => {
         var y = e.target.parentNode.id.substr(10, ) //აბრუნებს სტრინგს  id="pictureRow10"  აჭრის pictureRow-ს
         var index = game.colHints.length * Number(y) + Number(x);
         if (userSolution[index] == undefined || userSolution[index] == "0") {
-
             if (userCount < count) {
                 userSolution[index] = 1;
                 e.target.style.background = "white"
@@ -318,14 +318,19 @@ function showSolution() {
             }
         }
     } else {
-        userCount = 0;
-        var elements = document.getElementsByClassName("element");
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].style.background = "transparent"
+        for (var i = 0; i < userSolution.length; i++) {
+            var y = Math.floor(i / game.colHints.length) // ვიღებთ გასაფერადებელი უჯრის x და y კოორდინატებს
+            var x = i % game.colHints.length;
+
+            if (userSolution[i] === 1) {
+                document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "white"
+                document.getElementById("reset-game").disabled = false;
+                document.getElementById("check").disabled = false;
+            } else {
+                document.getElementById(`pictureRow${y}`).childNodes[x].style.background = "transparent"
+            }
         }
-        document.getElementById("puzzle").style.cursor = "pointer"
-        document.getElementById("reset-game").disabled = true;
-        document.getElementById("check").disabled = true;
+        document.getElementById("puzzle").style.cursor = "pointer";
     }
 
 }
@@ -338,4 +343,4 @@ function checkMaxCount() {
         }
     }
 
-}
+};
